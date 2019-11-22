@@ -20,6 +20,26 @@ public extension UIViewController {
 
 }
 
+// MARK: - Presentation
+@objc extension UIViewController {
+    
+    /// Extension to allow ViewControllers to be presented in FullScreen in iOS 13, whilst maintaining backwards compatibility
+    /// 
+    /// - Parameters:
+    ///   - viewControllerToPresent: viewController to be presented
+    ///   - animated: should animate when presenting
+    ///   - fullScreen: should present in fullscreen mode
+    ///   - modalInPresentation: if true and on iOS 13+, the user will be able to swipe down to dismiss the vc
+    ///   - completion: completion block
+    @objc public func present (_ viewControllerToPresent: UIViewController, animated:Bool, fullScreen:Bool, modalInPresentation:Bool, completion:(() -> Void)?) {
+        if #available(iOS 13.0, *){
+            viewControllerToPresent.isModalInPresentation = modalInPresentation
+            viewControllerToPresent.modalPresentationStyle = fullScreen ? .fullScreen : viewControllerToPresent.modalPresentationStyle
+        }
+        self.present(viewControllerToPresent, animated: animated, completion: completion)
+    }
+}
+
 // MARK: - Methods
 public extension UIViewController {
 
